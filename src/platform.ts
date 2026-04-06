@@ -4,6 +4,7 @@ import { Infinitive } from './infinitive';
 import { Thermostat } from './thermostat';
 import { OutdoorTemperature } from './outdoor_temperature';
 import { OutdoorHumidity } from './outdoor_humidity';
+import { HVACBlower } from './blower';
 
 /**
  * HomebridgePlatform
@@ -28,11 +29,19 @@ export class InfinitivePlatform implements StaticPlatformPlugin {
 
   accessories(callback: (foundAccessories: AccessoryPlugin[]) => void): void {
     const thermostat = new Thermostat(this, this.infinitive, `${this.config.name} Thermostat`);
-    callback(this.config.includeOutdoorSensors ? [
-      thermostat,
-      new OutdoorTemperature(this, this.infinitive, `${this.config.name} Outdoor Temperature`),
-      new OutdoorHumidity(this, this.infinitive, `${this.config.name} Outdoor Humidity`),
-    ] :
-      [ thermostat ]);
+    const accessories: AccessoryPlugin[] = [thermostat];
+
+    if (this.config.includeOutdoorSensors) {
+      accessories.push(
+        new OutdoorTemperature(this, this.infinitive, `${this.config.name} Outdoor Temperature`),
+        new OutdoorHumidity(this, this.infinitive, `${this.config.name} Outdoor Humidity`),
+      );
+    }
+
+    if (this.config.includeFanControl) {
+      accessories.push(new HVACBlower(this, this.infinitive, `${this.config.name} HVAC Fan`));
+    }
+
+    callback(accessories);
   }
 }

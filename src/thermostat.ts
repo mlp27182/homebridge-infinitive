@@ -207,7 +207,7 @@ export class Thermostat {
         ).to('tempC').scalar;
       case 'heat':
         return Qty(heatSetpoint, 'tempF').to('tempC').scalar;
-      case 'electic':
+      case 'electric':
         return Qty(heatSetpoint, 'tempF').to('tempC').scalar;
       case 'heatpump':
         return Qty(heatSetpoint, 'tempF').to('tempC').scalar;
