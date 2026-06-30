@@ -32,6 +32,12 @@
         "type": "boolean",
         "required": true,
         "default": true
+      },
+      "includeFanControl": {
+        "title": "Include Fan Speed Control",
+        "type": "boolean",
+        "required": false,
+        "default": false
       }
     }
   }
